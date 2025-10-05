@@ -139,6 +139,49 @@ fn main() {
     println!("{:?} is a square.", Rectangle::square(8.0));
     println!("{:?} is 2D: {}", r, Rectangle::is_2d());
 
+    // enum
+    let ikind = IpKind::V4;
+    let ipdv4 = IpAddr::V4(String::from("2324322"));
+    let ipdv6 = IpAddr::V6(127,0,0,1);
+
+    let msg_move = Message::Move{x: 32, y:54};
+    let msg_quit = Message::Quit;
+    let msg_changecolor = Message::ChangeColor(100, 23, 45);
+    let msg_write = Message::Write(String::from("jdwifhe"));
+
+    msg_move.call();
+
+    // Option<T>
+    // let mut some_number = Some("op");
+    // some_number = Some("iu");
+    // some_number = None;
+
+
+    let coin = Coin::Dime(UsState::Alaska);
+
+    let value = coin.get_value();
+    println!("this coin is {value}");
+
+    let result = if let Coin::Dime(_state) = coin {
+        if _state.is_aged() {
+            Some(String::from("old"))
+        } else {
+            Some(String::from("young"))
+        }
+
+    } else {
+
+        None
+
+    };
+    println!("{result:?}");
+
+
+
+
+
+
+
 }
 
 fn print_input(x: &mut String){
@@ -185,6 +228,7 @@ fn find_space(x: &str) -> usize {
     strs.len()
 }
 
+// struct
 struct User {
     active: bool,
     username: String,
@@ -233,4 +277,62 @@ impl Rectangle {
 
 fn calculate_area(rect: &Rectangle) -> f32 {
     rect.width * rect.height
+}
+
+// enum
+enum IpKind{
+    V4,
+    V6,
+}
+
+enum IpAddr{
+    V4(String),
+    V6(u32, u32, u32, u32),
+}
+
+
+enum Message{
+    Quit,
+    Move {x: u32, y: u32}, // enum can have struct-like variant
+    Write(String), 
+    ChangeColor(u32, u32, u32), // enum can have tuple-like variant
+}
+
+impl Message {
+    fn call(&self) {
+
+    }
+}
+
+#[derive(Debug)]
+enum UsState {
+    Alabama,
+    Alaska,
+}
+
+impl UsState {
+    fn is_aged(&self) -> bool {
+        match self {
+            UsState::Alabama => true,
+            UsState::Alaska => false,
+        }
+    }
+}
+
+enum Coin {
+    Penny,
+    Nickel,
+    Dime(UsState),
+    Quarter,
+}
+
+impl Coin {
+    fn get_value(&self) -> u8 {
+        match self {
+            Coin::Penny => 1,
+            Coin::Nickel => 5,
+            Coin::Dime(state) => 10,
+            Coin::Quarter => 25,
+        } // matches must be exhaustive, use _ => xxxx, or other => println!("{other}")
+    }
 }
