@@ -1,0 +1,1 @@
+/Users/bii/rust_starter/my-project/target/debug/libmy_project.rlib: /Users/bii/rust_starter/my-project/src/inside/back_of_house.rs /Users/bii/rust_starter/my-project/src/inside/back_of_house_2.rs /Users/bii/rust_starter/my-project/src/inside.rs /Users/bii/rust_starter/my-project/src/lib.rs /Users/bii/rust_starter/my-project/src/outside.rs
