@@ -176,10 +176,41 @@ fn main() {
     };
     println!("{result:?}");
 
+    // Vector. vector is growable/heap, it has push, pop, insert. array is only readable/fixed/stack.
+    // only stores values of same type and puts all the values next to each other in memory.
+    let mut v = vec![1, 2, 3];
+    println!("{}", v.len());
+    v.push(9);
+    println!("{}", v.len());
 
+    let item: &i32 = &v[2];
+    println!("{item}");
+    let item: Option<&i32> = v.get(2);
+    println!("{item:?}");
+    v.pop();
+    // println!("{item:?}"); // error! item is only a ref and vec is a heap, so changing elements may cause memory reallocate. not allow for boworring ref.
+    let v = vec![1,2,3,4];
+    for i in &v {
+        println!("{i}");
+    };
+    let mut v = vec![1,2,3,4];
+    for i in &mut v {
+        *i = *i + 9;
+    };
+    println!("{v:?}");
 
-
-
+    // for vector to store more than one kinds of data -> using enum
+    let vv = vec![
+        SpreadsheetCell::Int(6),
+        SpreadsheetCell::Float(9.807),
+        SpreadsheetCell::Text(String::from("no use")),
+    ];
+    for i in &vv {
+        match i {
+            SpreadsheetCell::Int(x) => println!("{x}"),
+            _ => println!("dde"),
+        }
+    };
 
 
 }
@@ -335,4 +366,10 @@ impl Coin {
             Coin::Quarter => 25,
         } // matches must be exhaustive, use _ => xxxx, or other => println!("{other}")
     }
+}
+
+enum SpreadsheetCell {
+    Int(i32),
+    Float(f64),
+    Text(String),
 }
