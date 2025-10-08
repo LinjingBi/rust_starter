@@ -1,3 +1,6 @@
+use std::collections::HashMap;
+
+
 fn main() {
     let num = 45.2/98.6;
     let reminder = 47%8;
@@ -211,6 +214,72 @@ fn main() {
             _ => println!("dde"),
         }
     };
+
+    //String
+    let mut a = String::from("abc");
+    let b = "uy";
+    a.push_str(b); //push_str(&str or &string)
+    let c = 'i';
+    a.push(c); // can only push one character
+
+    let d = String::from("string");
+    let c = a + b; // "+" concatenation: String + &str -> String. 
+    // and a is invalid bcs of the ownership. use a.clone() to keep a
+    let o = c + &d; // + is actually fn add(self, &str) -> String. self is string.
+    let f = o + "defew";
+
+    let a = "sf";
+    let b = String::from("op");
+    let c = format!("{a} {b}");
+    println!("{a} {b}"); // format! works like println!, except printing to the screen. so a, b ownership still hold
+
+    // let hello = String::from("Hola");
+    let h = "halo";
+    let i = &h[0..3]; //slicing always return str, so we still need &.
+
+    let p = "hello".to_string();
+    let f = &p[0..2];
+    // let u = &p[0..1];// do not use indexing in rust, because string is a wrapper over a Vec<u8>.
+    // println!("{u}"); // work bcs it is english letter.
+    // let hello = "Здравствуйте";
+    //let u = &hello[1..2]; // can't use [0..1]-like to return single character, will panic in runtime. because Cyrillic takes 2 bytes, elnglish letter takes 1 bytes.
+
+    // itering over strings
+    for i in "djeifhuei".chars() {
+        println!("{i}");
+    };
+
+    // hashmap. 
+    // all keys must be in same type, all values must be in same type.
+    let mut map = HashMap::new();
+    let score1 = String::from("score1");
+    let score2 = String::from("score2");
+    map.insert(&score1, 12.7); // try not to use score1, score2 directly for the sake of ownership.
+    map.insert(&score2, 34.7);
+    // map.insert(&String::from("score3"), 19.8); // not ok, even the same type. &String::from("Blue") creates a temporary String, then takes a reference to it.
+   //That temporary String is dropped immediately after this expression ends.
+    let score3 = String::from("score3");
+    map.insert(&score3, 98.9);
+
+    // .get() return Option<&value>, 
+    // .copied() returns Option<value>, 
+    // .unwrap_or(v) if None, return v. make sure v is in same type as map's value
+    let score = map.get(&score2).copied().unwrap_or(0.0); 
+
+    for (key, value) in &map {
+        println!("{key} {value}");
+    };
+
+    // hashmap's update is just re insert the same key
+    // map.entry(&score1).or_insert(90.8);
+    // map.entry(&String::from("score3")).or_insert(90.8);
+    // println!("{map:?}");
+    let mut scores = HashMap::new();
+    scores.insert(String::from("Blue"), 10);
+    scores.entry(String::from("Yellow")).or_insert(50);
+    let color = scores.entry(String::from("Blue")).or_insert(50); // .or_insert() returns a mutable reference of 50
+    *color += 10;
+    println!("{scores:?}"); // {"Yellow": 50, "Blue": 20}
 
 
 }
