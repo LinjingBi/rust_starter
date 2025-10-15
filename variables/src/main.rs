@@ -265,7 +265,7 @@ fn main() {
     // .copied() returns Option<value>, 
     // .unwrap_or(v) if None, return v. make sure v is in same type as map's value
     let score = map.get(&score2).copied().unwrap_or(0.0); 
-
+    // use &_ if you still need the map after the for loop
     for (key, value) in &map {
         println!("{key} {value}");
     };
@@ -275,12 +275,26 @@ fn main() {
     // map.entry(&String::from("score3")).or_insert(90.8);
     // println!("{map:?}");
     let mut scores = HashMap::new();
+    // update
     scores.insert(String::from("Blue"), 10);
+    // insert if not exist
     scores.entry(String::from("Yellow")).or_insert(50);
     let color = scores.entry(String::from("Blue")).or_insert(50); // .or_insert() returns a mutable reference of 50
     *color += 10;
     println!("{scores:?}"); // {"Yellow": 50, "Blue": 20}
 
+    // test
+    let mut scores = HashMap::new();
+    scores.insert(String::from("score1"), 9);
+
+    // .get() takes &_, which means even the key is not a ref, 
+    // f.e. here a String, you will still have to use &String to get the value
+    println!("{:?}", scores.get(&String::from("score1")));
+
+    let u = scores.get("ddd");
+    if u == None {
+        println!("00000");
+    };
 
 }
 
